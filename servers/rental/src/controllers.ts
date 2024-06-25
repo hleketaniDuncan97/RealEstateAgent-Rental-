@@ -1,12 +1,13 @@
 import { RequestHandler } from 'express'
-
-import { RequestBody, RequestQuery } from './../schemas/rental.schema'
 import z from 'zod'
+
+import { Request } from './schemas/request'
+import * as rentalServices from './services'
 
 export const createRental: RequestHandler<
   any,
   any,
-  z.infer<typeof RequestBody.CreateRental>
+  z.infer<typeof Request.Body.CreateRental>
 > = (request, response) => {
   throw new Error('Not Implemented')
 }
@@ -15,9 +16,11 @@ export const fetchRentals: RequestHandler<
   any,
   any,
   any,
-  z.infer<typeof RequestQuery.FetchRentals>
-> = (request, response) => {
-  throw new Error('Not Implemented')
+  z.infer<typeof Request.Query.FetchRentals>
+> = async (request, response) => {
+  const rentals = await rentalServices.fetchRentals(request.query)
+
+  return response.status(200).json(rentals)
 }
 
 export const fetchRental: RequestHandler = (request, response) => {
@@ -27,7 +30,7 @@ export const fetchRental: RequestHandler = (request, response) => {
 export const patchRental: RequestHandler<
   any,
   any,
-  z.infer<typeof RequestBody.PatchRental>
+  z.infer<typeof Request.Body.PatchRental>
 > = (request, response) => {
   throw new Error('Not Implemented')
 }
