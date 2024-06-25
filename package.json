@@ -1,0 +1,11 @@
+{
+  "name": "rent-a-place",
+  "version": "1.0.0",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "workspaces": [
+    "clients/admin",
+    "servers/rental"
+  ]
+}
