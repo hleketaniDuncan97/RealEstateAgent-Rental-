@@ -5,9 +5,9 @@ import {
   fetchRental,
   fetchRentals,
   patchRental,
-} from './controllers'
-import { Request } from './schemas/request'
-import validator from './middleware/validator'
+} from '../controllers/rental.controllers'
+import { Request } from '../schemas/rental.schema'
+import validator from '../middleware/validator'
 
 const router = Router()
 

@@ -1,3 +1,3 @@
-import * as rentalRepository from './repository'
+import * as rentalRepository from '../repositories/rental.repository'
 
 export const fetchRentals = modifier => rentalRepository.fetchRentals(modifier)
