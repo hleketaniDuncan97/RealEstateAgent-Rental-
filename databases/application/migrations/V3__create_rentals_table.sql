@@ -1,12 +1,12 @@
 CREATE TABLE rap.rentals (
-  id SERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY NOT NULL,
   propertyId UUID NOT NULL,
-  ownerId UUID NOT NULL,
-  tenantId UUID NOT NULL,
-  leaseId INT NOT NULL
+  statusId INT NOT NULL
 );
 
-ALTER TABLE rap.rentals
-ADD CONSTRAINT fk_lease
-FOREIGN KEY (leaseId) 
-REFERENCES rap.leases(id);
+ALTER SEQUENCE rap.rentals_id_seq RESTART WITH 1;
+
+ALTER TABLE rap.leases
+ADD CONSTRAINT fk_rental
+FOREIGN KEY (rentalId) 
+REFERENCES rap.rentals(id);

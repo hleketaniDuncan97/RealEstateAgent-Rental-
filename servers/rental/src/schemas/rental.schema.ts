@@ -6,7 +6,6 @@ export namespace Request {
 
     export const FetchRentals = z
       .object({
-        term: z.string(),
         limit: z.number().nonnegative().finite(),
         page: z.number().nonnegative().finite(),
         sortBy: z.array(z.string()),
@@ -26,7 +25,8 @@ export namespace Request {
     export const PatchRental = z
       .object({
         id: z.string(),
+        status: z.string(),
       })
-      .required({ id: true })
+      .required({ id: true, status: true })
   }
 }

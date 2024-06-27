@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express'
 import z from 'zod'
 
-import { Request } from './schemas/request'
-import * as rentalServices from './services'
+import { Request } from '../schemas/rental.schema'
+import * as rentalServices from '../services/rental.services'
 
 export const createRental: RequestHandler<
   any,
