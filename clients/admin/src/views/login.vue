@@ -1,0 +1,103 @@
+<template>
+    <div class="full">
+      <div class="login-page">
+        <div class="login-container">
+          <header>Welcome to property rental admin portal</header>
+          <h1>Effortlessly Manage Your Rental Properties</h1>
+          <p>Access and oversee all your properties and leases in one convenient location, ensuring seamless and efficient property management.</p>
+          <div class="login-actions">
+            <hr class="line-under-p">
+            <button>Login with Google
+                <img src="../assets/google.png" alt="">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <script lang="ts">
+  import { defineComponent } from 'vue';
+  
+  export default defineComponent({
+    name: 'Login',
+  });
+  </script>
+  
+  <style scoped>
+  .login-page {
+    height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../assets/trees.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .login-container {
+    height: 30rem;
+    background: rgba(255, 255, 255, 0.048);
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    width: 30rem;
+    backdrop-filter: blur(3rem);
+    border: 0.2rem solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  header {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+  }
+  
+  h1 {
+    font-size: 1.4rem;
+    color: white;
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    font-size: 1.2rem;
+  }
+  
+  .login-actions {
+    margin-top: auto; 
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
+  
+  .line-under-p {
+    width: 100%;
+    border-top: 0.0625rem solid white;
+    margin: 1.25rem 0;
+  }
+  
+  button {
+  background-color: white;
+  color: black;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+button:hover {
+  background-color: #c5a560;
+}
+
+button img {
+  width: 2rem;
+}
+  </style>
+  
