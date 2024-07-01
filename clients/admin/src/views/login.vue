@@ -7,7 +7,7 @@
           <p>Access and oversee all your properties and leases in one convenient location, ensuring seamless and efficient property management.</p>
           <div class="login-actions">
             <hr class="line-under-p">
-            <button>Login with Google
+            <button @click="loginButton">Login with Google
                 <img src="../assets/google.png" alt="">
             </button>
           </div>
@@ -17,11 +17,23 @@
   </template>
   
   <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { defineComponent } from 'vue'
+  import { useRouter } from 'vue-router'
   
   export default defineComponent({
-    name: 'Login',
-  });
+  name: 'Login',
+  setup() {
+    const router = useRouter();
+
+    const loginButton = () => {
+      router.push('/home');
+    };
+
+    return {
+      loginButton,
+    };
+  },
+});
   </script>
   
   <style scoped>
@@ -64,6 +76,7 @@
   
   p {
     font-size: 1.2rem;
+    color: white;
   }
   
   .login-actions {
