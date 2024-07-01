@@ -1,18 +1,18 @@
+// src/router/index.ts
 
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Login from '../views/login.vue';
-import Home from '../views/home.vue'
 
 const routes: Array<RouteRecordRaw> = [
+//   {
+//     path: '/',
+//     name: 'Home',
+//     component: () => import('@/components/Home.vue'), // Lazy-loaded
+//   },
   {
     path: '/',
     name: 'Login',
     component: Login,
-  },
-  {
-    path: '/home',
-    name: 'Home',
-    component: Home 
   },
 ];
 
