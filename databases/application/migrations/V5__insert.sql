@@ -2,17 +2,17 @@ INSERT INTO rap.rentalStatuses (description) VALUES
 ('VACANT'),
 ('OCCUPIED');
 
-INSERT INTO rap.rentals (propertyId, statusId) VALUES
-('3f6c0c4e-59b4-4f3d-a3a4-b8ad9a8f4e0d', 1),
-('f4bfa9b4-634e-4b62-95f3-51b76d6ff3e6', 1),
-('896ace68-6a90-4c4c-bae2-6bb8e8f71c0d', 1),
-('be1ccbb7-82a2-4453-b2b5-b1b084c8f842', 1),
-('d3778c13-9d1b-4721-9530-3cfe3c9e5b34', 1),
-('c80a1f9b-d3a2-4716-84b2-c7e32b5e8f11', 1),
-('184bb2cc-9a36-4d75-ace3-12b10f6b84b7', 1),
-('5a1a091b-760b-49cf-93c0-0c7f4e42cf7c', 1),
-('35c2a5db-dc65-4e3f-85e3-9039ecf2b635', 1),
-('b8e7e5d4-1b49-4cb8-841d-68ab8e1849c3', 1);
+INSERT INTO rap.rentals (propertyId, cost, statusId) VALUES
+('3f6c0c4e-59b4-4f3d-a3a4-b8ad9a8f4e0d', 1000.00, 1),
+('f4bfa9b4-634e-4b62-95f3-51b76d6ff3e6', 1100.00, 1),
+('896ace68-6a90-4c4c-bae2-6bb8e8f71c0d', 1200.00, 1),
+('be1ccbb7-82a2-4453-b2b5-b1b084c8f842', 1300.00, 1),
+('d3778c13-9d1b-4721-9530-3cfe3c9e5b34', 1400.00, 1),
+('c80a1f9b-d3a2-4716-84b2-c7e32b5e8f11', 1500.00, 1),
+('184bb2cc-9a36-4d75-ace3-12b10f6b84b7', 1600.00, 1),
+('5a1a091b-760b-49cf-93c0-0c7f4e42cf7c', 1700.00, 1),
+('35c2a5db-dc65-4e3f-85e3-9039ecf2b635', 1800.00, 1),
+('b8e7e5d4-1b49-4cb8-841d-68ab8e1849c3', 1900.00, 1);
 
 INSERT INTO rap.leases (rentalId, tenantId, startDate, endDate, rentAmount) VALUES
 (1, 1, '2023-01-31', '2024-01-31', 1000.00),
