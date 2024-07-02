@@ -3,6 +3,7 @@
     <NavBar />
     <main>
       <h1>{{ title }}</h1>
+      <button @click="logout">Logout</button>
     </main>
   </div>
 </template>
@@ -11,6 +12,8 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import NavBar from '../components/nav-bar.vue'
+import { useRouter } from 'vue-router';
+import authService from '../services/authService';
 
 export default defineComponent({
   name: 'HomeView',
@@ -19,9 +22,15 @@ export default defineComponent({
   },
   setup() {
     const title = ref('test');
+    const router = useRouter();
+    const logout = () => {
+      authService.logout();
+      router.push('/login');
+    };
 
     return {
       title,
+      logout,
     };
   },
 });
