@@ -9,7 +9,9 @@ export const createRental: RequestHandler<
   any,
   z.infer<typeof Request.Body.CreateRental>
 > = (request, response) => {
-  throw new Error('Not Implemented')
+  return rentalServices
+    .createRental(request.body.persona, request.body.property)
+    .then(() => response.sendStatus(201))
 }
 
 export const fetchRentals: RequestHandler<
@@ -18,13 +20,13 @@ export const fetchRentals: RequestHandler<
   any,
   z.infer<typeof Request.Query.FetchRentals>
 > = async (request, response) => {
-  const rentals = await rentalServices.fetchRentals(request.query)
-
-  return response.status(200).json(rentals)
+  return await rentalServices
+    .fetchRentals(request.query)
+    .then(rentals => response.status(200).json(rentals))
 }
 
 export const fetchRental: RequestHandler = (request, response) => {
-  throw new Error('Not Implemented')
+  return response.status(200).json()
 }
 
 export const patchRental: RequestHandler<
