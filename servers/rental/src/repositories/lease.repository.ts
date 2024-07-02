@@ -1,7 +1,19 @@
 import pool from "../database"
 
 export const fetchLeases = modifier => {
-  const query = `
+  let { limit, page, sortBy, order } = modifier
+  const parameters: (string | number)[] = []
+
+  limit = limit ?? 10
+  page = page ?? 1
+  let offset = (page - 1) * limit
+  sortBy = ['id', 'rentalid', 'tenantid', 'startdate', 'enddate', 'propertyid', 'status'].includes(sortBy)
+    ? sortBy
+    : 'id'
+  order = order?.toLocaleUpperCase()
+  order = ['ASC', 'DESC'].includes(order) ? order : 'ASC'
+
+  let query = `
     SELECT
       l.id,
       l.rentalid AS rentalId,
@@ -9,16 +21,23 @@ export const fetchLeases = modifier => {
       l.startdate AS startDate,
       l.enddate AS endDate,
       l.rentamount AS rentAmount,
-      r.propertyid AS propertyId,
-      rs.description AS rentalStatus
+      r.propertyid AS propertyId
     FROM rap.leases l
     INNER JOIN rap.rentals r
     ON l.rentalid = r.id
-    INNER JOIN rap.rentalStatuses rs
-    ON r.statusid = rs.id
   `
 
-  return pool.query(query).then(response => response.rows)
+  query += `
+    ORDER BY ${sortBy} ${order}
+    LIMIT $${parameters.length + 1}
+    OFFSET $${parameters.length + 2}
+  `
+
+  parameters.push(limit, offset)
+
+  return pool
+    .query(query, parameters)
+    .then(response => response.rows)
 }
 
 export const insertLeases = async leases => {

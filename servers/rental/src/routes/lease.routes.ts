@@ -7,11 +7,12 @@ import {
 } from '../controllers/lease.controllers'
 import { Request } from '../schemas/lease.schemas'
 import validator from '../middleware/validator'
+import parser from '../middleware/parser'
 
 const router = Router()
 
 router.route('/')
-  .get(validator(Request.Query.FetchLeases, 'query'), fetchLeases)
+  .get(parser, validator(Request.Query.FetchLeases, 'query'), fetchLeases)
 
 router.route('/:id')
   .get(fetchLease)

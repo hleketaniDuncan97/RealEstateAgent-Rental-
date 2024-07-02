@@ -1,7 +1,20 @@
 import pool from "../database"
 
-export const fetchRentals = ({ limit, status }) => {
-  const query = `
+export const fetchRentals = modifier => {
+  let { limit, page, sortBy, order, status } = modifier
+  const parameters: (string | number)[] = []
+
+  limit = limit ?? 10
+  page = page ?? 1
+  let offset = (page - 1) * limit
+  sortBy = ['id', 'propertyId', 'cost', 'status'].includes(sortBy)
+    ? sortBy
+    : 'id'
+  order = order?.toLocaleUpperCase()
+  order = ['ASC', 'DESC'].includes(order) ? order : 'ASC'
+  status = status?.toLocaleUpperCase()
+
+  let query = `
     SELECT  
       r.id,
       r.propertyid AS propertyId,
@@ -10,10 +23,26 @@ export const fetchRentals = ({ limit, status }) => {
     FROM rap.rentals r
     INNER JOIN rap.rentalstatuses rs
     ON r.statusid = rs.id
-    LIMIT $1
   `
 
-  return pool.query(query, [limit]).then(response => response.rows)
+  if (status) {
+    query += `WHERE rs.description = $${parameters.length + 1}`
+    parameters.push(status)
+  }
+
+  query += `
+    ORDER BY ${sortBy} ${order}
+    LIMIT $${parameters.length + 1}
+    OFFSET $${parameters.length + 2}
+  `
+
+  parameters.push(limit, offset)
+
+  console.log('P', parameters)
+
+  return pool
+    .query(query, parameters)
+    .then(response => response.rows)
 }
 
 export const fetchRental = id => {

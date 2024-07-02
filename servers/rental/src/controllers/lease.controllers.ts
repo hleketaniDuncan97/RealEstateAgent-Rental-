@@ -10,9 +10,9 @@ export const fetchLeases: RequestHandler<
   any,
   z.infer<typeof Request.Query.FetchLeases>
 > = async (request, response) => {
-  const leases = await leaseServices.fetchLeases(request.query)
-
-  return response.status(200).json(leases)
+  return await leaseServices
+    .fetchLeases(request.query)
+    .then(leases => response.status(200).json(leases))
 }
 
 export const fetchLease: RequestHandler = (request, response) => {
