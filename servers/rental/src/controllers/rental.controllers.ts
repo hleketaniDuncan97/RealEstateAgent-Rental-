@@ -20,13 +20,13 @@ export const fetchRentals: RequestHandler<
   any,
   z.infer<typeof Request.Query.FetchRentals>
 > = async (request, response) => {
-  const rentals = await rentalServices.fetchRentals(request.query)
-
-  return response.status(200).json(rentals)
+  return await rentalServices
+    .fetchRentals(request.query)
+    .then(rentals => response.status(200).json(rentals))
 }
 
 export const fetchRental: RequestHandler = (request, response) => {
-  return response.status(200).json
+  return response.status(200).json()
 }
 
 export const patchRental: RequestHandler<

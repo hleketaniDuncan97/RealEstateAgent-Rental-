@@ -8,11 +8,12 @@ import {
 } from '../controllers/rental.controllers'
 import { Request } from '../schemas/rental.schema'
 import validator from '../middleware/validator'
+import parser from '../middleware/parser'
 
 const router = Router()
 
 router.route('/')
-  .get(validator(Request.Query.FetchRentals, 'query'), fetchRentals)
+  .get(parser, validator(Request.Query.FetchRentals, 'query'), fetchRentals)
   .post(validator(Request.Body.CreateRental, 'body'), createRental)
 
 router.route('/:id')

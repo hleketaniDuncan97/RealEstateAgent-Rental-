@@ -8,7 +8,7 @@ export namespace Request {
       .object({
         limit: z.number().nonnegative().finite(),
         page: z.number().nonnegative().finite(),
-        sortBy: z.array(z.string()),
+        sortBy: z.string(),
         order: z.enum(['asc', 'desc']),
         status: z.enum(['vacant', 'occupied'])
       })
