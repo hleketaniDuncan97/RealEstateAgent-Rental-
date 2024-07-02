@@ -1,59 +1,37 @@
 <template>
   <div>
     <NavBar />
-    <main>
-      <h1>{{ title }}</h1>
-    </main>
+    <div class="container">
+      <div class="lease-management">
+        <button @click="handleLeaseManagement" class="lease-management-btn">Lease management</button>
+      </div>
+      <div class="summary-flex">
+        <div class="summary-item">
+          <h3>Total number of properties listed</h3>
+          <p>{{ totalProperties }}</p>
+        </div>
+        <div class="summary-item">
+          <h3>Total number of active leases</h3>
+          <p>{{ totalActiveLeases }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
-
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
 import NavBar from '../components/nav-bar.vue'
 
-export default defineComponent({
-  name: 'HomeView',
-  components: {
-    NavBar,
-  },
-  setup() {
-    const title = ref('test');
+const totalProperties = ref(4);
+const totalActiveLeases = ref(6);
 
-    return {
-      title,
-    };
-  },
-});
+const handleLeaseManagement = () => {
+  console.log('Lease management button clicked');
+};
 </script>
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-body.dark-mode {
-  background-color: #1a1a1a;
-  color: #f0f0f0;
-}
-
-.app-container {
-  min-height: 100vh;
-}
-
-nav {
-  background-color: #f8f8f8;
-  color: #333;
-}
-
-body.dark-mode nav {
-  background-color: #333;
-  color: #f8f8f8;
-}
-
-main {
-  padding: 2rem;
-}
+<style scoped>
+@import '../styles/style.css';
+@import '../styles/home.css';
 </style>

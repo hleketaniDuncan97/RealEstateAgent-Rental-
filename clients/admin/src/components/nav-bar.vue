@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <div class="logo">Property Rentals</div>
+    <div class="logo">Real Estate Agent</div>
     <div class="theme-toggle">
       <input type="checkbox" id="goggle-switch" @change="toggleDarkMode" :checked="isDarkMode">
       <label for="goggle-switch" class="goggle-switch">
