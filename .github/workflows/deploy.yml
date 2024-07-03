@@ -45,11 +45,13 @@ jobs:
       
       - name: Generate infrastructure plan
         id: plan
-        run: terraform plan
+        run: terraform plan -out=.tfplan
       
       - name: Apply infrastructure plan
         id: apply
-        run: terraform apply
+        run: |
+          ls -a
+          terraform apply .tfplan
       
   migrate:
     needs: infra
