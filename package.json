@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@types/express": "^4.17.21",
-    "pm2": "^5.4.1"
+    "pm2": "^5.4.1",
+    "jsonwebtoken": "^9.0.2"
   }
 }
