@@ -23,7 +23,25 @@
     border-radius: 0.25rem;
 }
 
+.rental-management-btn{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 0.62rem 1.25rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    margin-right: 1rem;
+}
+
 .lease-management-btn:hover {
+    background-color: #45a049;
+}
+
+.rental-management-btn:hover {
     background-color: #45a049;
 }
 
