@@ -39,7 +39,9 @@ jobs:
       
       - name: Initialize Terraform
         id: init
-        run: terraform init
+        run: |
+          ls -a
+          terraform init
         working-directory: Terraform/"Client and Server"
       
       - name: Generate infrastructure plan
