@@ -4,7 +4,7 @@ const allowedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
 const allowedOrigins = ['http://localhost:5173', 'http://rentals.projects.bbdgrad.com'];
 
 const configureOrigin = origin => {
-  if (!origin) return '*'; // Allow requests with no origin, adjust as needed
+  if (!origin) return '*';
 
   if (!allowedOrigins.includes(origin)) return null;
 
