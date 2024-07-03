@@ -1,0 +1,90 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .theme-toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  #goggle-switch {
+    display: none;
+  }
+  
+  .goggle-switch {
+    display: inline-block;
+    width: 3.7rem;
+    height: 1.9rem;
+    background-color: #f0f0f0;
+    border-radius: 0.9rem;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 0.2rem solid grey;
+  }
+  
+  #goggle-switch:checked + .goggle-switch {
+    background-color: #333;
+    border-color: #f0f0f0;
+  }
+  
+  .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.13rem;
+    height: 1.13rem;
+    transition: opacity 0.3s;
+    fill: #333;
+  }
+  
+  .sun {
+    left: 0.4rem;
+  }
+  
+  .moon {
+    right: 0.4rem;
+  }
+  
+  #goggle-switch:checked + .goggle-switch .sun {
+    opacity: 0.5;
+  }
+  
+  #goggle-switch:not(:checked) + .goggle-switch .moon {
+    opacity: 0.5;
+  }
+  
+  #goggle-switch:checked + .goggle-switch .icon {
+    fill: #f0f0f0;
+  }
+  
+  .slider {
+    width: 1.4rem;
+    height: 1.4rem;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 0.12rem;
+    transition: transform 0.3s;
+    box-shadow: 0 0.12rem 0.3rem rgba(0, 0, 0, 0.2);
+    transform: translateY(-50%);
+  }
+  
+  #goggle-switch:checked + .goggle-switch .slider {
+    transform: translate(2rem, -50%);
+    background-color: #f0f0f0;
+  }
+  img{
+    width: 7rem;
+    border-radius: 30%;
+  }
