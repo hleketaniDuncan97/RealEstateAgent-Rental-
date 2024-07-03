@@ -20,11 +20,14 @@ jobs:
           ref: feat/integration
 
       - name: Configure AWS
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           role-session-name: GITHUB_ACTION_DEPLOY
           aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Validate Identity with AWS
+        run: aws sts get-caller-identity
     
       - name: Checkout Terraform
         uses: hashicorp/setup-terraform@v2
