@@ -1,7 +1,7 @@
 import { Lease } from "../type/lease";
 import axios from 'axios';
 
-  const API_URL = 'http://localhost:3000/api/leases';
+const API_URL = 'http://localhost:3000/api/leases';
 
 export const fetchLeases = async (): Promise<Lease[]> => {
   try {
