@@ -1,27 +1,31 @@
-// src/middleware/auth.ts
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-dotenv.config();
+import { OAuth2Client } from 'google-auth-library';
 
-const secret = process.env.JWT_SECRET;
+const client = new OAuth2Client('11695021444-gb72qvk190v3bda0gunhqpg4sn3sueaq.apps.googleusercontent.com');
 
-// Middleware to authenticate requests
-const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+async function authenticateToken(req: Request, res: Response, next: NextFunction) {
+    const idToken = req.headers.authorization?.split('Bearer ')[1];
 
-    if (token == null) {
-        return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    if (!idToken) {
+        return res.status(401).json({ error: 'No token provided' });
     }
 
-    jwt.verify(token, secret, (err, user) => {
-        if (err) {
-            return res.status(403).json({ message: 'Forbidden: Invalid token' });
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken,
+            audience: '11695021444-gb72qvk190v3bda0gunhqpg4sn3sueaq.apps.googleusercontent.com',
+        });
+
+        const payload = ticket.getPayload();
+
+        if (!payload) {
+            return res.status(401).json({ error: 'Invalid token' });
         }
-        req.user = user;
+
         next();
-    });
-};
+    } catch (error) {
+        return res.status(401).json({ error: 'Token verification failed' });
+    }
+}
 
 export default authenticateToken;
