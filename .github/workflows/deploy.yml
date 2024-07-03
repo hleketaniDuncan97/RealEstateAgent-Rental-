@@ -41,6 +41,7 @@ jobs:
         run: terraform apply .tfplan
       
   migrate:
+    needs: infra
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -68,6 +69,7 @@ jobs:
           flyway -url=jdbc:postgresql://${{ secrets.AWS_RDS_ENDPOINT }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }} -user=${{ secrets.DB_USERNAME }} -password=${{ secrets.DB_PASSWORD }} -locations=filesystem:$(pwd)/migrations migrate
 
   build-app-api:
+    needs: infra
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -114,6 +116,7 @@ jobs:
             npm run start
 
   build-admin-api:
+    needs: infra
     runs-on: ubuntu-latest
     defaults:
       run:
