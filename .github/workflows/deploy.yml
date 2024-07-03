@@ -42,17 +42,17 @@ jobs:
         run: |
           ls -a
           terraform init
-        working-directory: Terraform/"Client and Server"
+        working-directory: terraform/"Client and Server"
       
       - name: Generate infrastructure plan
         id: plan
         run: terraform plan
-        working-directory: Terraform/"Client and Server"
+        working-directory: terraform/"Client and Server"
       
       - name: Apply infrastructure plan
         id: apply
         run: terraform apply
-        working-directory: Terraform/"Client and Server"
+        working-directory: terraform/"Client and Server"
       
   migrate:
     needs: infra
