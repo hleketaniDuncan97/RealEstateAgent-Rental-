@@ -2,6 +2,18 @@ INSERT INTO rap.rentalStatuses (description) VALUES
 ('VACANT'),
 ('OCCUPIED');
 
+INSERT INTO rap.tenants (name, email, phoneNumber) VALUES
+('John Doe', 'john.doe@example.com', '555-1234'),
+('Jane Smith', 'jane.smith@example.com', '555-5678'),
+('Alice Johnson', 'alice.johnson@example.com', '555-8765'),
+('Bob Brown', 'bob.brown@example.com', '555-4321'),
+('Charlie Davis', 'charlie.davis@example.com', '555-6789'),
+('Diana Evans', 'diana.evans@example.com', '555-9876'),
+('Edward Harris', 'edward.harris@example.com', '555-6543'),
+('Fiona Green', 'fiona.green@example.com', '555-3456'),
+('George Hill', 'george.hill@example.com', '555-7654'),
+('Hannah King', 'hannah.king@example.com', '555-2345');
+
 INSERT INTO rap.rentals (propertyId, cost, statusId) VALUES
 ('3f6c0c4e-59b4-4f3d-a3a4-b8ad9a8f4e0d', 1000.00, 1),
 ('f4bfa9b4-634e-4b62-95f3-51b76d6ff3e6', 1100.00, 1),

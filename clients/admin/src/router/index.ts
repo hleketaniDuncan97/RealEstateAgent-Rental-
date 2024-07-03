@@ -4,6 +4,9 @@ import Login from '../views/login.vue';
 import Home from '../views/home.vue'
 import authService from '../services/authService'
 import authStore from "../store/authStore";
+import leaseList from '../views/leaseList.vue';
+import rentals from '../views/rentals.vue';
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -18,6 +21,16 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       requiresAuth: true,
     }
+  },
+  {
+    path: '/lease',
+    name: 'Lease',
+    component: leaseList 
+  },
+  {
+    path: '/rental',
+    name: 'Rental',
+    component: rentals 
   },
 ];
 

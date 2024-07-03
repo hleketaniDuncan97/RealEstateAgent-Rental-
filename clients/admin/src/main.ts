@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import './style.css'
+import './styles/style.css'
 import router from './router';
 import vue3GoogleLogin from 'vue3-google-login'
 

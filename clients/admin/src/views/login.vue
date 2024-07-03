@@ -147,8 +147,5 @@ export default defineComponent({
 button:hover {
   background-color: #c5a560;
 }
-
-button img {
-  width: 2rem;
-}
+  @import '../styles/login.css';
   </style>
