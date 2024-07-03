@@ -11,6 +11,7 @@ jobs:
 
   infra:
     runs-on: ubuntu-latest
+    environment: AWS_ACCESS_KEY
 
     steps:
       - name: Checkout
