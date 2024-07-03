@@ -15,9 +15,6 @@ jobs:
 
   infra:
     runs-on: ubuntu-latest
-    defaults:
-        run:
-          working-directory: ./Terraform/"Client and Server"
 
     environment: AWS_ACCESS_KEY
 
@@ -43,14 +40,17 @@ jobs:
       - name: Initialize Terraform
         id: init
         run: terraform init
+        working-directory: ./Terraform/"Client and Server"
       
       - name: Generate infrastructure plan
         id: plan
         run: terraform plan
+        working-directory: ./Terraform/"Client and Server"
       
       - name: Apply infrastructure plan
         id: apply
         run: terraform apply
+        working-directory: ./Terraform/"Client and Server"
       
   migrate:
     needs: infra
