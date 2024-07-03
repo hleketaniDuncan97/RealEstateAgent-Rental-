@@ -3,6 +3,7 @@
     <header>
       <NavBar />
     </header>
+    <button @click="logout">Logout</button>
     <main class="container">
       <section class="lease-management">
         <button @click="handleRentalManagement" class="rental-management-btn">Rental management</button>
@@ -28,10 +29,9 @@ import { ref, computed, onMounted } from 'vue';
 import NavBar from '../components/nav-bar.vue';
 import { fetchRentals, fetchLeases } from '../services';
 import { Rental, Lease } from '../type';
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
+import authService from '../services/authService';
 
-
-const router = useRouter();
 
 const rentals = ref<Rental[]>([]);
 const leases = ref<Lease[]>([]);
@@ -43,6 +43,11 @@ const handleLeaseManagement = () => {
 const handleRentalManagement = () => {
   router.push('/rental')
 }
+const router = useRouter();
+const logout = () => {
+      authService.logout();
+      router.push('/login');
+};
 
 const loadRentals = async () => {
   try {

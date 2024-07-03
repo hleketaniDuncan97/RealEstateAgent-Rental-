@@ -26,8 +26,59 @@
   };
   </script>
   
-  <style scoped>
 
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'
+import {gapi} from "gapi-script";
+import authService from '../services/authService';
+import authStore from "../store/authStore";
+
+export default defineComponent({
+  name: 'Login',
+  setup() {
+    const router = useRouter();
+
+    onMounted(() => {
+      // Initialize the Google API client
+      gapi.load('auth2', () => {
+        gapi.auth2.init({
+          client_id: '11695021444-gb72qvk190v3bda0gunhqpg4sn3sueaq.apps.googleusercontent.com',
+        });
+      });
+    });
+
+    const loginButton = () => {
+      const auth2 = gapi.auth2.getAuthInstance();
+      auth2.signIn().then(googleUser => {
+        const profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId());
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail());
+
+        // You can also get the token if needed
+        const id_token = googleUser.getAuthResponse().id_token;
+        console.log('ID Token: ' + id_token);
+        authService.setToken(id_token);
+        authStore.clearUnauthorizedMessage();
+
+        // Navigate to the home page after successful login
+        router.push('/home');
+      }).catch(error => {
+        console.error('Error signing in', error);
+      });
+    };
+
+    return {
+      loginButton,
+      unauthorizedMessage: authStore.unauthorizedMessage,
+    };
+  },
+});
+</script>
+
+  <style scoped>
   @import '../styles/login.css';
   </style>
-  
