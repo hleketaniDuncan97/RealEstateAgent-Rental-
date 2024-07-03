@@ -30,8 +30,6 @@ import { useRouter } from 'vue-router';
 import authService from '../services/authService';
 
 
-const router = useRouter();
-
 const rentals = ref<Rental[]>([]);
 const leases = ref<Lease[]>([]);
 
