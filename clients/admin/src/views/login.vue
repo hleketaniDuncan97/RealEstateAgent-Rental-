@@ -1,31 +1,21 @@
 <template>
-    <main class="full">
-      <section class="login-page">
-        <section class="login-container">
-          <header>Welcome to property rental admin portal</header>
-          <h1>Effortlessly Manage Your Rental Properties</h1>
-          <p>Access and oversee all your properties and leases in one convenient location, ensuring seamless and efficient property management.</p>
-          <footer class="login-actions">
-            <hr class="line-under-p">
-            <button @click="loginButton">Login with Google
-                <img src="../assets/google.png" alt="">
-            </button>
-          </footer>
-        </section>
-      </section>
-    </main>
+  <div class="full">
+    <div class="login-page">
+      <div class="login-container">
+        <header>Welcome to property rental admin portal</header>
+        <h1>Effortlessly Manage Your Rental Properties</h1>
+        <p>Access and oversee all your properties and leases in one convenient location, ensuring seamless and efficient property management.</p>
+        <div v-if="unauthorizedMessage" class="unauthorized-message">{{ unauthorizedMessage }}</div>
+        <div class="login-actions">
+          <hr class="line-under-p">
+          <button @click="loginButton">Login with Google
+            <img src="../assets/google.png" alt="">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
-  
-  <script setup lang="ts">
-  import { useRouter } from 'vue-router'
-  
-  const router = useRouter();
-  
-  const loginButton = () => {
-    router.push('/home');
-  };
-  </script>
-  
 
 <script lang="ts">
 import { defineComponent } from 'vue'
@@ -51,7 +41,7 @@ export default defineComponent({
 
     const loginButton = () => {
       const auth2 = gapi.auth2.getAuthInstance();
-      auth2.signIn().then(googleUser => {
+      auth2.signIn().then((googleUser: { getBasicProfile: () => any; getAuthResponse: () => { (): any; new(): any; id_token: any; }; }) => {
         const profile = googleUser.getBasicProfile();
         console.log('ID: ' + profile.getId());
         console.log('Name: ' + profile.getName());
@@ -66,7 +56,7 @@ export default defineComponent({
 
         // Navigate to the home page after successful login
         router.push('/home');
-      }).catch(error => {
+      }).catch((error: any) => {
         console.error('Error signing in', error);
       });
     };
