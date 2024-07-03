@@ -3,7 +3,6 @@
     <header>
       <NavBar />
     </header>
-    <button @click="logout">Logout</button>
     <main class="container">
       <section class="lease-management">
         <button @click="handleRentalManagement" class="rental-management-btn">Rental management</button>
@@ -23,61 +22,46 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
-import NavBar from '../components/nav-bar.vue';
-import { fetchRentals, fetchLeases } from '../services';
-import { Rental, Lease } from '../type';
-import { useRouter } from 'vue-router';
-import authService from '../services/authService';
+  import { ref, computed, onMounted } from 'vue';
+  import NavBar from '../components/nav-bar.vue';
+  import { fetchRentals, fetchLeases } from '../services';
+  import { Rental, Lease } from '../type';
+  import { useRouter } from 'vue-router';
 
+  const rentals = ref<Rental[]>([])
+  const leases = ref<Lease[]>([])
+  const router = useRouter()
 
-const rentals = ref<Rental[]>([]);
-const leases = ref<Lease[]>([]);
-
-const handleLeaseManagement = () => {
-  router.push('/lease');
-};
-
-const handleRentalManagement = () => {
-  router.push('/rental')
-}
-const router = useRouter();
-const logout = () => {
-      authService.logout();
-      router.push('/login');
-};
-
-const loadRentals = async () => {
-  try {
-    rentals.value = await fetchRentals();
-  } catch (error) {
-    console.error('Error loading rentals:', error);
+  const handleLeaseManagement = () => {
+    router.push('/lease')
   }
-};
 
-const loadLeases = async () => {
-  try {
-    leases.value = await fetchLeases();
-  } catch (error) {
-    console.error('Error loading leases:', error);
+  const handleRentalManagement = () => {
+    router.push('/rental')
   }
-};
 
-const totalActiveLeases = computed(() => {
-   return rentals.value.filter(rental => rental.status === 'VACANT').length;
-});
+  const loadData = async () => {
+    try {
+      rentals.value = await fetchRentals()
+      leases.value = await fetchLeases()
+    } catch (error) {
+      console.error('Error loading data:', error)
+    }
+  }
 
-const totalProperties = computed(() => rentals.value.length);
+  const totalActiveLeases = computed(() => {
+    return rentals.value.filter(rental => rental.status === 'VACANT').length
+  })
 
-onMounted(() => {
-  loadRentals();
-  loadLeases();
-});
+  const totalProperties = computed(() => rentals.value.length)
+
+  onMounted(() => {
+    loadData()
+  })
 </script>
 
 <style scoped>
-@import '../styles/style.css';
-@import '../styles/home.css';
+  @import '../styles/style.css';
+  @import '../styles/home.css';
 </style>

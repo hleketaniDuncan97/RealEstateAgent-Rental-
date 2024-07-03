@@ -34,23 +34,23 @@ import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import authService from '../services/authService';
 
-const router = useRouter();
-    const isDarkMode = ref(false);
+  const router = useRouter();
+  const isDarkMode = ref(false);
 
-    const toggleDarkMode = () => {
-      isDarkMode.value = !isDarkMode.value;
-    };
-    const logout = () => {
-      authService.logout();
-      router.push('/login');
-};
-    watch(isDarkMode, (newValue) => {
-      if (newValue) {
-        document.body.classList.add('dark-mode');
-      } else {
-        document.body.classList.remove('dark-mode');
-      }
-    });
+  const toggleDarkMode = () => { isDarkMode.value = !isDarkMode.value }
+  
+  const logout = () => {
+    authService.logout()
+    router.push('/login')
+  }
+
+  watch(isDarkMode, (newValue) => {
+    if (newValue) {
+      document.body.classList.add('dark-mode')
+    } else {
+      document.body.classList.remove('dark-mode')
+    }
+  })
 
 </script>
 
