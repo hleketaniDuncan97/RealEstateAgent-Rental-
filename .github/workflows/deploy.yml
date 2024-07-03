@@ -32,16 +32,13 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Validate Identity with AWS
-        run: aws sts get-caller-identity
+        run: |
+          ls -a
+          aws sts get-caller-identity
     
       - name: Checkout Terraform
         uses: hashicorp/setup-terraform@v2
 
-      - name: Correct working directory # Something weird is going on
-        run: |
-          cd terraform
-          ls -a
-      
       - name: Initialize Terraform
         id: init
         run: terraform init
