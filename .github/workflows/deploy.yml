@@ -42,11 +42,11 @@ jobs:
       
       - name: Generate infrastructure plan
         id: plan
-        run: terraform plan -out=.tfplan
+        run: terraform plan
       
       - name: Apply infrastructure plan
         id: apply
-        run: terraform apply .tfplan
+        run: terraform apply
       
   migrate:
     needs: infra
