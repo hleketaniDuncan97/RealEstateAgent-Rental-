@@ -1,25 +1,28 @@
 <template>
   <div>
-    <NavBar />
-    <div class="container">
+    <header>
+      <NavBar />
+    </header>
     <button @click="logout">Logout</button>
-      <div class="lease-management">
+    <main class="container">
+      <section class="lease-management">
         <button @click="handleRentalManagement" class="rental-management-btn">Rental management</button>
         <button @click="handleLeaseManagement" class="lease-management-btn">Lease management</button>
-      </div>
-      <div class="summary-flex">
-        <div class="summary-item">
+      </section>
+      <section class="summary-flex">
+        <article class="summary-item">
           <h3>Total number of properties listed</h3>
           <p>{{ totalProperties }}</p>
-        </div>
-        <div class="summary-item">
+        </article>
+        <article class="summary-item">
           <h3>Total number of active leases</h3>
           <p>{{ totalActiveLeases }}</p>
-        </div>
-      </div>
-    </div>
+        </article>
+      </section>
+    </main>
   </div>
 </template>
+
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
