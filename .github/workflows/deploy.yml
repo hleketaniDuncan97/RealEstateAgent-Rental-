@@ -36,27 +36,23 @@ jobs:
     
       - name: Checkout Terraform
         uses: hashicorp/setup-terraform@v2
+
+      - name: Correct working directory # Something weird is going on
+        run: |
+          cd terraform
+          ls -a
       
       - name: Initialize Terraform
         id: init
-        run: |
-          cd terraform
-          terraform init
-        working-directory: terraform/"Client and Server"
+        run: terraform init
       
       - name: Generate infrastructure plan
         id: plan
-        run: |
-          cd terraform
-          terraform plan
-        working-directory: terraform/"Client and Server"
+        run: terraform plan
       
       - name: Apply infrastructure plan
         id: apply
-        run: |
-          cd terraform
-          terraform apply
-        working-directory: terraform/"Client and Server"
+        run: terraform apply
       
   migrate:
     needs: infra
