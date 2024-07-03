@@ -10,7 +10,7 @@ import rentals from '../views/rentals.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/login',
+    path: '/',
     name: 'Login',
     component: Login,
   },

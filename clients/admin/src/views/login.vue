@@ -69,6 +69,6 @@ export default defineComponent({
 });
 </script>
 
-  <style scoped>
+<style scoped>
   @import '../styles/login.css';
-  </style>
+</style>
