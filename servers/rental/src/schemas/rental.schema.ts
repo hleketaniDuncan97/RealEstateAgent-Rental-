@@ -8,8 +8,9 @@ export namespace Request {
       .object({
         limit: z.number().nonnegative().finite(),
         page: z.number().nonnegative().finite(),
-        sortBy: z.array(z.string()),
+        sortBy: z.string(),
         order: z.enum(['asc', 'desc']),
+        status: z.enum(['vacant', 'occupied'])
       })
       .partial()
   }
@@ -18,9 +19,16 @@ export namespace Request {
 
     export const CreateRental = z
       .object({
-        id: z.string(),
+        persona: z.object({
+          id: z.string()
+        })
+          .required({ id: true }),
+        property: z.object({
+          capacity: z.number().nonnegative().max(8),
+        })
+          .required({ capacity: true })
       })
-      .required({ id: true })
+      .required({ persona: true, property: true })
 
     export const PatchRental = z
       .object({
