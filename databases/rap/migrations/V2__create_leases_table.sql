@@ -4,7 +4,7 @@ CREATE TABLE rap.leases (
   tenantId INT NOT NULL,
   startDate DATE NOT NULL,
   endDate DATE NOT NULL,
-  rentAmount MONEY NOT NULL
+  rentAmount BIGINT NOT NULL
 );
 
 ALTER SEQUENCE rap.leases_id_seq RESTART WITH 1;

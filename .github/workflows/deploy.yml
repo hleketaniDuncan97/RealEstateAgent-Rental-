@@ -1,0 +1,28 @@
+name: "Deploy"
+
+on:
+  push:
+    branches:
+      - main
+      - feat/integration
+  workflow_dispatch:
+
+jobs:
+  clone:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+  infra:
+    runs-on: ubuntu-latest
+
+  migrate:
+    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
+  distro:
+    runs-on: ubuntu-latest
+  run:
+    runs-on: ubuntu-latest
