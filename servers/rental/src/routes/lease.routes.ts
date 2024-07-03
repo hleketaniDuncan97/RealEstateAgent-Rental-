@@ -8,14 +8,15 @@ import {
 import { Request } from '../schemas/lease.schemas'
 import validator from '../middleware/validator'
 import parser from '../middleware/parser'
+import authenticateToken from "../middleware/auth";
 
 const router = Router()
 
 router.route('/')
-  .get(parser, validator(Request.Query.FetchLeases, 'query'), fetchLeases)
+  .get(authenticateToken, parser, validator(Request.Query.FetchLeases, 'query'), fetchLeases)
 
 router.route('/:id')
-  .get(fetchLease)
-  .patch(validator(Request.Body.PatchLease, 'body'), patchLease)
+  .get(authenticateToken, fetchLease)
+  .patch(authenticateToken, validator(Request.Body.PatchLease, 'body'), patchLease)
 
 export default router
