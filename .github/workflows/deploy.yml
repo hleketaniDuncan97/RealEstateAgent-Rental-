@@ -8,21 +8,153 @@ on:
   workflow_dispatch:
 
 jobs:
-  clone:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
   infra:
     runs-on: ubuntu-latest
 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: feat/integration
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: GITHUB_ACTION_DEPLOY
+          aws-region: ${{ secrets.AWS_REGION }}
+    
+      - name: Checkout Terraform
+        uses: hashicorp/setup-terraform@v2
+      
+      - name: Initialize Terraform
+        id: init
+        run: terraform init
+      
+      - name: Generate infrastructure plan
+        id: plan
+        run: terraform plan -out=.tfplan
+      
+      - name: Apply infrastructure plan
+        id: apply
+        run: terraform apply .tfplan
+      
   migrate:
     runs-on: ubuntu-latest
-  build:
+    defaults:
+      run:
+        working-directory: ./databases/rap
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: feat/integration
+        
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: GITHUB_ACTION_DEPLOY
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install Flyway
+        run: |
+          wget -qO- https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/10.7.2/flyway-commandline-10.7.2-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-10.7.2/flyway /usr/local/bin
+      
+      - name: Run migrations
+        run: |
+          flyway -url=jdbc:postgresql://${{ secrets.AWS_RDS_ENDPOINT }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }} -user=${{ secrets.DB_USERNAME }} -password=${{ secrets.DB_PASSWORD }} -locations=filesystem:$(pwd)/migrations migrate
+
+  build-app-api:
     runs-on: ubuntu-latest
-  distro:
+    defaults:
+      run:
+        working-directory: ./servers/app
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: feat/integration
+
+      - name: Build admin API
+        run: |
+          npm run build
+
+      - name: Retrieve EC2 secrets from AWS Secrets Manager
+        id: secrets
+        uses: aws-actions/aws-secretsmanager-get-secrets@v1
+        with:
+          secret-id: ${{ secrets.EC2_SECRETS_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Transfer application folder to EC2
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ steps.secrets.outputs.APP_EC2_HOST }}
+          username: ${{ steps.secrets.outputs.APP_EC2_USER }}
+          key: ${{ steps.secrets.outputs.APP_EC2_SSH_KEY }}
+          port: 22
+          source: "./servers/application"
+          target: "~/application"
+
+      - name: Build application API + Run application API
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ steps.secrets.outputs.APP_EC2_HOST }}
+          username: ${{ steps.secrets.outputs.APP_EC2_USER }}
+          key: ${{ steps.secrets.outputs.APP_EC2_SSH_KEY }}
+          port: 22
+          script: |
+            cd ~/application
+            npm install
+            npm run build
+            npm run start
+
+  build-admin-api:
     runs-on: ubuntu-latest
-  run:
-    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./servers/admin
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: feat/integration
+
+      - name: Build admin API
+        run: |
+          npm run build
+
+      - name: Retrieve EC2 secrets from AWS Secrets Manager
+        id: secrets
+        uses: aws-actions/aws-secretsmanager-get-secrets@v1
+        with:
+          secret-id: ${{ secrets.EC2_SECRETS_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Transfer application folder to EC2
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ steps.secrets.outputs.APP_EC2_HOST }}
+          username: ${{ steps.secrets.outputs.APP_EC2_USER }}
+          key: ${{ steps.secrets.outputs.APP_EC2_SSH_KEY }}
+          port: 22
+          source: "./servers/application"
+          target: "~/application"
+
+      - name: Build application API + Run application API
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ steps.secrets.outputs.APP_EC2_HOST }}
+          username: ${{ steps.secrets.outputs.APP_EC2_USER }}
+          key: ${{ steps.secrets.outputs.APP_EC2_SSH_KEY }}
+          port: 22
+          script: |
+            cd ~/application
+            npm install
+            npm run build
+            npm run start
