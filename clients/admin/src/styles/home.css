@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
 .container {
     padding: 1.25rem;
     max-width: 75rem;
@@ -11,6 +13,7 @@
 }
 
 .lease-management-btn {
+    font-family: "Lora", serif;
     background-color: #4CAF50;
     border: none;
     color: white;
@@ -24,6 +27,7 @@
 }
 
 .rental-management-btn{
+    font-family: "Lora", serif;
     background-color: #4CAF50;
     border: none;
     color: white;
@@ -63,11 +67,13 @@
 }
 
 h3 {
-    font-size: 1rem;
+    font-family: "Lora", serif;
+    font-size: 1.5rem;
     margin-bottom: 0.6rem;
 }
 
 p {
-    font-size: 1.2rem;
+    font-family: "Lora", serif;
+    font-size: 1.4rem;
     font-weight: bold;
 }
