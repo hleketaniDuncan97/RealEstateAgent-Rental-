@@ -1,7 +1,7 @@
 import { Rental } from "../type/rental";
 import authService from './authService';
 
-const API_URL = 'http://localhost:3000/api/rentals';
+const API_URL = 'http://test-env-env.eba-juqqknty.eu-west-1.elasticbeanstalk.com/api/rentals';
 
 export const fetchRentals = async (): Promise<Rental[]> => {
   try {
