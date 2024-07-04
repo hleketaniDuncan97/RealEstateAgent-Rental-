@@ -5,48 +5,12 @@
     </header>
     <main class="leases-container">
       <h2>Leases</h2>
-      <button @click="toggleAddLeaseForm" class="add-lease-btn">Add Lease</button>
-
-      <div v-if="showAddLeaseForm" class="overlay">
-        <form @submit.prevent="addLease" class="add-lease-form">
-          <h3>Add New Lease</h3>
-
-          <label for="propertyId">Property:</label>
-          <select v-model="newLease.rentalId" id="propertyId" required>
-            <option v-for="property in vacantProperties" :key="property.id" :value="property.id">
-              {{ property.propertyId }}
-            </option>
-          </select>
-
-          <label for="rentalId">Rentals:</label>
-          <select v-model="newLease.rentalId" id="rentalId" required>
-            <option v-for="property in vacantProperties" :key="property.id" :value="property.id">
-             {{ property.id }}
-            </option>
-          </select>
-
-          <label for="startDate">Start Date:</label>
-          <input type="date" id="startDate" v-model="newLease.startDate" required @change="updateEndDate">
-
-          <label for="endDate">End Date:</label>
-          <input type="date" id="endDate" v-model="newLease.endDate" required readonly>
-
-          <label for="cost">Cost:</label>
-          <input type="number" :value="selectedCost" id="cost" required readonly>
-
-          <div class="button-group">
-            <button type="button" @click="cancelAddLease" class="cancel-button">Cancel</button>
-            <button type="submit" class="add-lease-button">Add Lease</button>
-          </div>
-        </form>
-      </div>
       
       <section class="leases-list">
         <article v-for="lease in leases" :key="lease.id" class="lease-card">
           <div class="card-content">
             <p><strong>Property ID:</strong> {{ getPropertyId(lease.rentalId) }}</p>
             <p><strong>Rental ID:</strong> {{ lease.rentalId }}</p>
-            <!-- <p><strong>Tenant ID:</strong> {{ lease.tenantId }}</p> -->
             <p><strong>Start Date:</strong> {{ formatDate(lease.startDate) }}</p>
             <p><strong>End Date:</strong> {{ formatDate(lease.endDate) }}</p>
             <p><strong>Rent Amount:</strong> {{ formatRentAmount(lease.rentAmount) }}</p>
@@ -64,16 +28,7 @@
   import navBar from '../components/nav-bar.vue';
 
   const leases = ref<Lease[]>([])
-  const showAddLeaseForm = ref(false)
   const rentals = ref<Rental[]>([])
-  const selectedCost = ref<number | null>(null)
-  const newLease = ref<Partial<Lease>>({
-    rentalId: 0,
-    tenantId: 0,
-    startDate: '',
-    endDate: '',
-    rentAmount: '0'
-  })
 
   const loadData = async () => {
     try {
@@ -84,22 +39,6 @@
     }
   }
 
-  const addLease = async () => {
-    try {
-      console.log('Adding lease...')
-      // Implement your logic to add the lease
-    } catch (error) {
-      console.error('Error adding lease:', error)
-    }
-  }
-
-  const toggleAddLeaseForm = () => {
-    showAddLeaseForm.value = !showAddLeaseForm.value
-  }
-
-  const cancelAddLease = () => {
-    showAddLeaseForm.value = false
-  }
 
   const getPropertyId = (rentalId: number) => {
     const rental = rentals.value.find(rental => rental.id === rentalId);
@@ -117,26 +56,6 @@
   return (numericAmount / 100).toFixed(0);
 };
 
-  const vacantProperties = computed(() => {
-    return rentals.value.filter(rental => rental.status === 'VACANT')
-  })
-
-  const updateEndDate = () => {
-    if (newLease.value.startDate) {
-      const startDate = new Date(newLease.value.startDate)
-      const endDate = new Date(startDate.getFullYear() + 1, startDate.getMonth(), startDate.getDate())
-      newLease.value.endDate = endDate.toISOString().split('T')[0]
-    }
-  }
-
-  watch(() => newLease.value.rentalId, (newVal) => {
-    const selectedProperty = rentals.value.find(rental => rental.id === newVal)
-    if (selectedProperty) {
-      selectedCost.value = parseFloat(selectedProperty.cost.toString().replace(/[^0-9.-]+/g, "")) / 100
-    } else {
-      selectedCost.value = null
-    }
-  })
 
   onMounted(() => {
     loadData()
