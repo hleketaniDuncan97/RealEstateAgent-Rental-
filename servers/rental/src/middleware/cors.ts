@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 
 const allowedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
-const allowedOrigins = ['http://localhost:5173', 'http://rentals.projects.bbdgrad.com'];
+const allowedOrigins = ['http://localhost:5173', 'http://rentals.projects.bbdgrad.com', 'http://rp-working-bucket.s3-website-eu-west-1.amazonaws.com'];
 
 const configureOrigin = origin => {
   if (!origin) return '*';
