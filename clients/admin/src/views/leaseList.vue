@@ -11,10 +11,17 @@
         <form @submit.prevent="addLease" class="add-lease-form">
           <h3>Add New Lease</h3>
 
-          <label for="propertyId">Vacant Property:</label>
+          <label for="propertyId">Property:</label>
           <select v-model="newLease.rentalId" id="propertyId" required>
             <option v-for="property in vacantProperties" :key="property.id" :value="property.id">
               {{ property.propertyId }}
+            </option>
+          </select>
+
+          <label for="rentalId">Rentals:</label>
+          <select v-model="newLease.rentalId" id="rentalId" required>
+            <option v-for="property in vacantProperties" :key="property.id" :value="property.id">
+             {{ property.id }}
             </option>
           </select>
 
