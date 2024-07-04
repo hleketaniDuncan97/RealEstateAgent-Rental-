@@ -41,7 +41,7 @@ export default defineComponent({
 
     const loginButton = () => {
       const auth2 = gapi.auth2.getAuthInstance();
-      auth2.signIn().then(googleUser => {
+      auth2.signIn().then((googleUser: { getBasicProfile: () => any; getAuthResponse: () => { (): any; new(): any; id_token: any; }; }) => {
         const profile = googleUser.getBasicProfile();
         console.log('ID: ' + profile.getId());
         console.log('Name: ' + profile.getName());
@@ -56,7 +56,7 @@ export default defineComponent({
 
         // Navigate to the home page after successful login
         router.push('/home');
-      }).catch(error => {
+      }).catch((error: any) => {
         console.error('Error signing in', error);
       });
     };
@@ -69,6 +69,6 @@ export default defineComponent({
 });
 </script>
 
-  <style scoped>
+<style scoped>
   @import '../styles/login.css';
-  </style>
+</style>

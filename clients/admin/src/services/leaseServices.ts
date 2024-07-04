@@ -1,12 +1,31 @@
 import { Lease } from "../type/lease";
-import axios from 'axios';
+import authService from './authService';
 
 const API_URL = 'http://localhost:3000/api/leases';
 
 export const fetchLeases = async (): Promise<Lease[]> => {
   try {
-    const response = await axios.get(API_URL);
-    const leases = response.data.map((l: any) => ({
+    const token = authService.getToken();
+
+    if (!token) {
+      throw new Error("Token is missing or invalid");
+    }
+
+    const response = await fetch(API_URL, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    const leases = data.map((l: any) => ({
       id: l.id,
       rentalId: l.rentalid,
       tenantId: l.tenantid,
