@@ -18,9 +18,6 @@
             </option>
           </select>
 
-          <label for="tenantId">Tenant person:</label>
-          <input type="text" id="tenantId" v-model="newLease.tenantId" required>
-
           <label for="startDate">Start Date:</label>
           <input type="date" id="startDate" v-model="newLease.startDate" required @change="updateEndDate">
 
@@ -40,11 +37,12 @@
       <section class="leases-list">
         <article v-for="lease in leases" :key="lease.id" class="lease-card">
           <div class="card-content">
+            <p><strong>Property ID:</strong> {{ getPropertyId(lease.rentalId) }}</p>
             <p><strong>Rental ID:</strong> {{ lease.rentalId }}</p>
-            <p><strong>Tenant ID:</strong> {{ lease.tenantId }}</p>
+            <!-- <p><strong>Tenant ID:</strong> {{ lease.tenantId }}</p> -->
             <p><strong>Start Date:</strong> {{ formatDate(lease.startDate) }}</p>
             <p><strong>End Date:</strong> {{ formatDate(lease.endDate) }}</p>
-            <p><strong>Rent Amount:</strong> {{ lease.rentAmount }}</p>
+            <p><strong>Rent Amount:</strong> {{ formatRentAmount(lease.rentAmount) }}</p>
           </div>
         </article>
       </section>
@@ -96,11 +94,21 @@
     showAddLeaseForm.value = false
   }
 
+  const getPropertyId = (rentalId: number) => {
+    const rental = rentals.value.find(rental => rental.id === rentalId);
+    return rental ? rental.propertyId : '';
+  };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' }
     return date.toLocaleDateString('en-GB', options)
   }
+
+  const formatRentAmount = (amount: string) => {
+  const numericAmount = parseFloat(amount.replace(/[^0-9.-]+/g, ""));
+  return (numericAmount / 100).toFixed(0);
+};
 
   const vacantProperties = computed(() => {
     return rentals.value.filter(rental => rental.status === 'VACANT')
@@ -127,6 +135,7 @@
     loadData()
   })
 </script>
+
 
 <style scoped>
   @import '../styles/style.css';
