@@ -18,10 +18,10 @@
     <section class="rental-list">
       <article v-for="rents in filteredRentals" :key="rents.id" class="rental-card">
         <div class="card-content">
-          <p><strong>Rental ID:</strong> {{ rents.id }}</p>
           <p><strong>Property ID:</strong> {{ rents.propertyId }}</p>
+          <p><strong>Rental ID:</strong> {{ rents.id }}</p>
           <p><strong>Status:</strong> {{ rents.status }}</p>
-          <p><strong>Cost:</strong> {{ rents.cost }}</p>
+          <p><strong>Cost:</strong> {{  formatRentAmount(rents.cost) }}</p>
         </div>
       </article>
     </section>
@@ -56,6 +56,11 @@
   const filteredRentals = computed(() => {
     return applyStatusFilter()
   })
+
+  const formatRentAmount = (amount: string) => {
+  const numericAmount = parseFloat(amount.replace(/[^0-9.-]+/g, ""));
+  return (numericAmount / 100).toFixed(0);
+  }
 
   onMounted(() => {
     loadRentals()

@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 
 const allowedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
-const allowedOrigins = ['http://localhost:5173', 'http://rentals.projects.bbdgrad.com', 'http://rp-working-bucket.s3-website-eu-west-1.amazonaws.com'];
+const allowedOrigins = ['http://localhost:5173', 'http://rentals.projects.bbdgrad.com'];
 
 const configureOrigin = origin => {
   if (!origin) return '*';
@@ -15,10 +15,7 @@ const configureMethods = (methods: string[]) => methods.join(', ');
 
 const cors: RequestHandler = (request, response, next) => {
   const origin = configureOrigin(request.headers.origin);
-  if (origin) {
-    response.setHeader('Access-Control-Allow-Origin', origin);
-  }
-
+  response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Methods', configureMethods(allowedMethods));
   response.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
   response.setHeader('Access-Control-Allow-Credentials', 'true');

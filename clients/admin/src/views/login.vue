@@ -43,14 +43,9 @@ export default defineComponent({
       const auth2 = gapi.auth2.getAuthInstance();
       auth2.signIn().then((googleUser: { getBasicProfile: () => any; getAuthResponse: () => { (): any; new(): any; id_token: any; }; }) => {
         const profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId());
-        console.log('Name: ' + profile.getName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail());
 
         // You can also get the token if needed
         const id_token = googleUser.getAuthResponse().id_token;
-        console.log('ID Token: ' + id_token);
         authService.setToken(id_token);
         authStore.clearUnauthorizedMessage();
 

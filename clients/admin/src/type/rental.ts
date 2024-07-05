@@ -1,7 +1,7 @@
 export interface Rental {
     id: number
     propertyId: string
-    cost: number
+    cost: string
     statusId: number
     status: string
 }
