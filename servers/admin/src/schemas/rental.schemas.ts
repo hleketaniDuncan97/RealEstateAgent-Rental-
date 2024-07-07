@@ -1,32 +1,36 @@
-import { z } from 'zod'
+import j from 'joi'
 
 export namespace Request {
 
+  export namespace Params {
+
+    export const Id = j.number().min(1)
+  }
+
   export namespace Query {
 
-    export const FetchRentals = z
+    export const FetchRentals = j
       .object({
-        limit: z.number().nonnegative().finite(),
-        page: z.number().nonnegative().finite(),
-        sortBy: z.array(z.string()),
-        order: z.enum(['asc', 'desc']),
-        status: z.enum(['vacant', 'occupied'])
+        limit: j.number().min(1).optional(),
+        page: j.number().min(1).optional(),
+        sortBy: j.string().optional(),
+        order: j.allow('asc', 'desc').optional(),
+        status: j.allow('vacant', 'occupied').optional(),
       })
-      .partial()
   }
 
   export namespace Body {
 
-    export const CreateRental = z
+    export const CreateRental = j
       .object({
-        propertyId: z.string(),
-        cost: z.number(),
+        propertyId: j.number().min(1).required(),
+        cost: j.number().min(0).required(),
       })
-      .required({ propertyId: true, cost: true })
 
-    export const PatchRental = z
+    export const PatchRental = j
       .object({
-        cost: z.string(),
+        cost: j.string().optional(),
+        status: j.allow('vacant', 'occupied'),
       })
   }
 }

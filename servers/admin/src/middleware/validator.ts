@@ -1,18 +1,18 @@
 import { RequestHandler } from 'express'
-import { ZodError, ZodSchema } from 'zod'
+import j from 'joi'
 
 const validator = (
-  schema: ZodSchema,
-  property: 'query' | 'body'
+  schema: j.Schema,
+  property: 'query' | 'body' | 'params'
 ): RequestHandler => {
   return (request, response, next) => {
     try {
-      schema.parse(request[property])
+      schema.validate(request[property], { convert: true })
       next()
     } catch (error) {
-      if (error instanceof ZodError) {
+      if (error instanceof j.ValidationError) {
         return response.status(400).json({
-          errors: error.errors.map(e => ({
+          errors: error.details.map(e => ({
             field: e.path.join('.'),
             message: e.message,
           }))

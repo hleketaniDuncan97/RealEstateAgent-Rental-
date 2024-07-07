@@ -17,7 +17,7 @@ router.route('/')
   .post(validator(Request.Body.CreateRental, 'body'), createRental)
 
 router.route('/:id')
-  .get(fetchRental)
+  .get(validator(Request.Params.Id, 'params'), fetchRental)
   .patch(validator(Request.Body.PatchRental, 'body'), patchRental)
 
 export default router

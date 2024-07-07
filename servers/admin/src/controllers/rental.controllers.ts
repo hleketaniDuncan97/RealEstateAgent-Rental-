@@ -1,16 +1,22 @@
 import { RequestHandler } from 'express'
-import z from 'zod'
 
-import { Request } from '../schemas/rental.schemas'
 import * as rentalServices from '../services/rental.services'
 
 export const createRental: RequestHandler<
   any,
   any,
-  z.infer<typeof Request.Body.CreateRental>
+  any
 > = (request, response) => {
+  const persona = {
+    id: request.body.personaId,
+  }
+
+  const property = {
+    capacity: request.body.numUnits,
+  }
+
   return rentalServices
-    .createRental(request.body)
+    .createRental(persona, property)
     .then(() => response.sendStatus(201))
 }
 
@@ -18,25 +24,22 @@ export const fetchRentals: RequestHandler<
   any,
   any,
   any,
-  z.infer<typeof Request.Query.FetchRentals>
+  any
 > = async (request, response) => {
-  const rentals = await rentalServices.fetchRentals(request.query)
-
-  return response.status(200).json(rentals)
+  return rentalServices.fetchRentals(request.query)
+    .then(rentals => response.status(200).json(rentals))
 }
 
 export const fetchRental: RequestHandler = (request, response) => {
-  return response.status(200).json
+  return rentalServices.fetchRental({ id: request.params.id })
+    .then(rental => response.status(200).json(rental))
 }
 
 export const patchRental: RequestHandler<
   any,
   any,
-  z.infer<typeof Request.Body.PatchRental>
+  any
 > = (request, response) => {
-  throw new Error('Not Implemented')
-}
-
-export const deleteRental: RequestHandler = (request, response) => {
-  throw new Error('Not Implemented')
+  return rentalServices.updateRental(request.body)
+    .then(rental => response.status(200).json(rental))
 }

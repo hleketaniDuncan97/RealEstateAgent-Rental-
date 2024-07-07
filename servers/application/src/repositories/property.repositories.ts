@@ -1,6 +1,5 @@
 import { Agent } from 'https'
 
-console.log('ENV', process.env.MTLS_CERT)
 
 export const fetchProperty = capacity => fetch(
   '',

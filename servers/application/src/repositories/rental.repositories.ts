@@ -71,7 +71,6 @@ export const occupyRentalsInsertLeases = async (rentals, leases) => {
     await pool.query('BEGIN')
 
     for (const lease of leases) {
-      console.log('L', lease)
       await pool.query(
         leaseQuery,
         [
