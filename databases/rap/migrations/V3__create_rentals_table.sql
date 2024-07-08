@@ -1,7 +1,7 @@
 CREATE TABLE rap.rentals (
   id SERIAL PRIMARY KEY NOT NULL,
-  propertyId UUID NOT NULL,
-  cost MONEY NOT NULL,
+  propertyId BIGINT NOT NULL,
+  cost BIGINT NOT NULL,
   statusId INT NOT NULL
 );
 
