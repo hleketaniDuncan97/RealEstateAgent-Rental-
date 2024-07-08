@@ -1,32 +1,33 @@
-import { RequestHandler } from "express"
+import { RequestHandler } from 'express';
 
-const allowedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
-const allowedOrigins = ['http://localhost:5173', 'rentals.projects.bbdgrad.com']
+const allowedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
+const allowedOrigins = ['http://localhost:5173', 'http://rentals.projects.bbdgrad.com'];
 
 const configureOrigin = origin => {
-  if (!origin) return null
+  if (!origin) return '*';
 
-  if (!allowedOrigins.includes(origin)) return null
+  if (!allowedOrigins.includes(origin)) return null;
 
-  return origin
-}
+  return origin;
+};
 
-const configureMethods = (methods: string[]) => methods.join(', ')
+const configureMethods = (methods: string[]) => methods.join(', ');
 
 const cors: RequestHandler = (request, response, next) => {
-  response.setHeader(
-    'access-control-allow-origin',
-    configureOrigin(request.headers['origin'])
-  )
+  const origin = configureOrigin(request.headers.origin);
+  if (origin) {
+    response.setHeader('Access-Control-Allow-Origin', origin);
+  }
 
-  response.setHeader(
-    'access-control-allow-methods',
-    configureMethods(allowedMethods)
-  )
+  response.setHeader('Access-Control-Allow-Methods', configureMethods(allowedMethods));
+  response.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+  response.setHeader('Access-Control-Allow-Credentials', 'true');
 
-  if (request.method === 'OPTIONS') return response.status(204)
+  if (request.method === 'OPTIONS') {
+    return response.status(204).send();
+  }
 
-  next()
-}
+  next();
+};
 
-export default cors
+export default cors;

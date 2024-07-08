@@ -6,7 +6,7 @@ const catcher: ErrorRequestHandler = (error, request, response, next) => {
     return response.status(error.status).json(error.serialize())
   }
 
-  return response.status(400).json({ message: 'Hectic! What just happened?' })
+  return response.status(400).json({ message: error.message })
 }
 
 export default catcher

@@ -45,7 +45,7 @@ export const fetchRentals = ({
     .then(response => response.rows)
 }
 
-export const fetchRental = id => {
+export const fetchRental = rental => {
   const query = `
     SELECT  
       r.id,
@@ -58,24 +58,28 @@ export const fetchRental = id => {
     WHERE r.id = $1
   `
 
-  return pool.query(query, [id]).then(response => response.rows[0])
+  return pool.query(query, [rental.id]).then(response => response.rows[0])
 }
 
 export const insertRentals = property => {
   const query = `
-    DO $$
-      DECLARE
-        index INTEGER;
-      BEGIN
-        FOR index 1..$1 LOOP 
-          INSERT INTO rap.rentals (propertyId, status) VALUES
-            ($2, 1);
-        END LOOP;
-      END
-    $$;
+    INSERT INTO rap.rentals (propertyId, cost, statusId) VALUES
+    ($1, 2000, 1)
   `
 
-  return pool.query(query, [property.capacity, property.id])
+  return pool.query('BEGIN')
+    .then(async () => {
+      for (let i = 0; i < property.capacity; i += 1) {
+        await pool.query(query, [property.id])
+      }
+    })
+    .then(() => pool.query(query))
+    .then(() => pool.query('COMMIT'))
+    .catch(error => pool.query('ROLLBACK')
+      .then(() => {
+        throw new Error('Error adding rental')
+      })
+    )
 }
 
 export const occupyRentalsInsertLeases = (rentals, leases) => {
@@ -96,7 +100,7 @@ export const occupyRentalsInsertLeases = (rentals, leases) => {
     VALUES ($1, $2, $3, $4, $5)
   `
 
-  pool.query('BEGIN')
+  return pool.query('BEGIN')
     .then(async () => {
       for (const lease of leases) {
         await pool.query(

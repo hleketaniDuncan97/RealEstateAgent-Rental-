@@ -2,7 +2,8 @@ import { RequestHandler } from 'express'
 
 import * as rentalServices from '../services/rental.services'
 
-export const createRental: RequestHandler<
+
+export const addRental: RequestHandler<
   any,
   any,
   any
@@ -13,6 +14,29 @@ export const createRental: RequestHandler<
 
   const property = {
     capacity: request.body.numUnits,
+  }
+
+  return rentalServices
+    .createRental(persona, property)
+    .then(() => response.sendStatus(201))
+}
+
+export const postRental: RequestHandler<
+  any,
+  any,
+  any
+> = (request, response) => {
+  const persona = {
+    id: request.body.personaId,
+  }
+
+  const property = {
+    capacity: request.body.numUnits,
+  }
+
+  if (request.query.type === 'add') {
+    return rentalServices.addRentals(property)
+      .then(() => response.sendStatus(201))
   }
 
   return rentalServices
@@ -40,6 +64,12 @@ export const patchRental: RequestHandler<
   any,
   any
 > = (request, response) => {
-  return rentalServices.updateRental(request.body)
+  const rental = {
+    id: request.params.id,
+    cost: request.body.cost,
+    statusId: request.body.statusId,
+  }
+
+  return rentalServices.updateRental(rental)
     .then(rental => response.status(200).json(rental))
 }

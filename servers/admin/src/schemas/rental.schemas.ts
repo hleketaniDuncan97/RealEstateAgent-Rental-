@@ -21,7 +21,7 @@ export namespace Request {
 
   export namespace Body {
 
-    export const CreateRental = j
+    export const PostRental = j
       .object({
         propertyId: j.number().min(1).required(),
         cost: j.number().min(0).required(),
@@ -29,8 +29,8 @@ export namespace Request {
 
     export const PatchRental = j
       .object({
-        cost: j.string().optional(),
-        status: j.allow('vacant', 'occupied'),
+        cost: j.string().required(),
+        status: j.allow('vacant', 'occupied').optional(),
       })
   }
 }
