@@ -498,6 +498,37 @@ resource "aws_lb_target_group_attachment" "api_tg_attachment" {
   port             = 80
 }
 
+resource "aws_route53_zone" "oauth_zone" {
+  name = "admin.api.rentals.projects.bbdgrad.com"
+}
+
+resource "aws_route53_zone" "api_zone" {
+  name = "api.rentals.projects.bbdgrad.com"
+}
+
+
+resource "aws_route53_record" "admin_api_record" {
+  zone_id = aws_route53_zone.oauth_zone.zone_id
+  name    = "admin.api.rentals.projects.bbdgrad.com"
+  type    = "A"
+  alias {
+    name                   = aws_lb.oauth_lb.dns_name
+    zone_id                = aws_lb.oauth_lb.zone_id
+    evaluate_target_health = true
+  }
+}
+
+resource "aws_route53_record" "api_record" {
+  zone_id = aws_route53_zone.api_zone.zone_id
+  name    = "api.rentals.projects.bbdgrad.com"
+  type    = "A"
+  alias {
+    name                   = aws_lb.api_lb.dns_name
+    zone_id                = aws_lb.api_lb.zone_id
+    evaluate_target_health = true
+  }
+}
+
 
 //resource "aws_lb" "example" {
  // name               = "${var.project_name}-target-group"
